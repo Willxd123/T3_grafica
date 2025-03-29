@@ -4,6 +4,7 @@ using OpenTK.Mathematics;
 using OpenTK.Graphics.OpenGL4;
 using Core;
 using Shapes;
+using OpenTK.Windowing.GraphicsLibraryFramework;
 
 namespace Proyecto3D
 {
@@ -14,6 +15,8 @@ namespace Proyecto3D
         private float _rotation = 0.0f;
         private Vector3 _cameraPosition = new Vector3(0, 0, 3);
         private float _zoom = 45.0f;
+        private float _moveSpeed = 2.5f; // Añadido
+        private int _selectedObjectIndex = 0; // Añadido
 
         public MainWindow() : base(GameWindowSettings.Default, NativeWindowSettings.Default)
         {
@@ -30,30 +33,64 @@ namespace Proyecto3D
 
             _shaderManager.LoadShaders();
 
-            // Agregar figuras
             _objectManager.AddShape(new UShape()
             {
                 Position = new Vector3(0, 0, 0),
                 Scale = new Vector3(0.5f)
             });
 
-            // Puedes agregar más figuras aquí
-            // Nuevo cubo
             _objectManager.AddShape(new CubeShape()
             {
                 Position = new Vector3(1, 0, 0),
                 Scale = new Vector3(0.5f),
-                Rotation = new Vector3(0, 45, 0) // Rotación opcional
+                Rotation = new Vector3(0, 45, 0)
             });
-            
+
             _objectManager.AddShape(new U2()
             {
                 Position = new Vector3(-1, 0.5f, 0),
                 Scale = new Vector3(0.9f),
-                Rotation = new Vector3(0, 0, 0) // Rotación opcional
+                Rotation = new Vector3(0, 0, 0)
             });
-
         }
+
+        protected override void OnUpdateFrame(FrameEventArgs args)
+{
+    base.OnUpdateFrame(args);
+    
+    var keyboardState = KeyboardState;
+    var time = (float)args.Time;
+    
+    // Rotación continua (opcional)
+    _rotation += (float)args.Time;
+    
+    // Cambiar objeto seleccionado con teclas numéricas
+    if (keyboardState.IsKeyDown(Keys.D1)) _selectedObjectIndex = 0;
+    if (keyboardState.IsKeyDown(Keys.D2)) _selectedObjectIndex = 1;
+    if (keyboardState.IsKeyDown(Keys.D3)) _selectedObjectIndex = 2;
+    
+    // Mover el objeto seleccionado
+    if (_objectManager.Shapes.Count > _selectedObjectIndex)
+    {
+        var selectedObject = _objectManager.Shapes[_selectedObjectIndex];
+        var newPosition = selectedObject.Position;
+        
+        if (keyboardState.IsKeyDown(Keys.W)) newPosition.Z -= _moveSpeed * time;
+        if (keyboardState.IsKeyDown(Keys.S)) newPosition.Z += _moveSpeed * time;
+        if (keyboardState.IsKeyDown(Keys.A)) newPosition.X -= _moveSpeed * time;
+        if (keyboardState.IsKeyDown(Keys.D)) newPosition.X += _moveSpeed * time;
+        if (keyboardState.IsKeyDown(Keys.Q)) newPosition.Y -= _moveSpeed * time;
+        if (keyboardState.IsKeyDown(Keys.E)) newPosition.Y += _moveSpeed * time;
+        
+        selectedObject.Position = newPosition;
+    }
+    
+    // Control de cámara/zoom
+    if (keyboardState.IsKeyDown(Keys.Up)) _zoom -= 1f;
+    if (keyboardState.IsKeyDown(Keys.Down)) _zoom += 1f;
+    
+    _zoom = MathHelper.Clamp(_zoom, 1.0f, 90.0f);
+}
 
         protected override void OnRenderFrame(FrameEventArgs args)
         {
@@ -69,10 +106,11 @@ namespace Proyecto3D
             SwapBuffers();
         }
 
-        protected override void OnUpdateFrame(FrameEventArgs args)
+        protected override void OnMouseWheel(MouseWheelEventArgs e)
         {
-            base.OnUpdateFrame(args);
-            _rotation += (float)args.Time;
+            base.OnMouseWheel(e);
+            _zoom -= e.OffsetY;
+            _zoom = MathHelper.Clamp(_zoom, 1.0f, 90.0f);
         }
 
         protected override void OnResize(ResizeEventArgs e)

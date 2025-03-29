@@ -15,6 +15,9 @@ namespace Core
             _shaderManager = shaderManager;
         }
 
+        // Expone la lista de formas como propiedad pública de solo lectura
+        public IReadOnlyList<IShape> Shapes => _shapes.AsReadOnly();
+
         public void AddShape(IShape shape)
         {
             shape.SetupBuffers();

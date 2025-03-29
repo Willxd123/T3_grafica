@@ -28,3 +28,4 @@ E:\.net\T3_grafica\obj\Debug\net9.0\refint\T3_grafica.dll
 E:\.net\T3_grafica\obj\Debug\net9.0\T3_grafica.pdb
 E:\.net\T3_grafica\obj\Debug\net9.0\T3_grafica.genruntimeconfig.cache
 E:\.net\T3_grafica\obj\Debug\net9.0\ref\T3_grafica.dll
+E:\.net\T3_grafica\obj\Debug\net9.0\T3_grafica.sourcelink.json
