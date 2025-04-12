@@ -7,7 +7,7 @@ namespace Core
 {
     public class ObjectManager
     {
-        private readonly List<IShape> _shapes = new();
+        private readonly List<BaseShape> _shapes = new();
         private readonly ShaderManager _shaderManager;
 
         public ObjectManager(ShaderManager shaderManager)
@@ -16,9 +16,9 @@ namespace Core
         }
 
         // Expone la lista de formas como propiedad pública de solo lectura
-        public IReadOnlyList<IShape> Shapes => _shapes.AsReadOnly();
+        public IReadOnlyList<BaseShape> Shapes => _shapes.AsReadOnly();
 
-        public void AddShape(IShape shape)
+        public void AddShape(BaseShape shape)
         {
             shape.SetupBuffers();
             _shapes.Add(shape);

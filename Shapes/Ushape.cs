@@ -3,9 +3,9 @@ using OpenTK.Mathematics;
 
 namespace Shapes
 {
-    public class UShape : IShape
+    public class UShape : BaseShape
     {
-        public float[] Vertices { get; } = {
+        public override float[] Vertices { get; } = {
             // Cara frontal izquierda
             -1.0f, -1.0f, -1.0f,  1.0f, 0.0f, 0.0f, // 0 
             -0.5f, -1.0f, -1.0f,  1.0f, 0.0f, 0.0f, // 1 
@@ -43,7 +43,7 @@ namespace Shapes
             -1.0f, -0.5f,  0.5f,  0.5f, 0.5f, 0.5f  //23 
         };
 
-        public uint[] Indices { get; } = {
+        public override  uint[] Indices { get; } = {
             // Caras columna izquierda
             0, 1, 2, 2, 3, 0,   // Cara frontal 
             4, 5, 6, 6, 7, 4,   // Cara trasera 
@@ -68,32 +68,5 @@ namespace Shapes
             16, 19, 23, 23, 20, 16, // Cara izquierda 
             17, 18, 22, 22, 21, 17  // Cara derecha 
         };
-
-        public Vector3 Position { get; set; } = Vector3.Zero;
-        public Vector3 Rotation { get; set; } = Vector3.Zero;
-        public Vector3 Scale { get; set; } = Vector3.One;
-        public int VertexArrayObject { get; set; }
-        public int VertexBufferObject { get; set; }
-        public int ElementBufferObject { get; set; }
-
-        public void SetupBuffers()
-        {
-            VertexArrayObject = GL.GenVertexArray();
-            GL.BindVertexArray(VertexArrayObject);
-
-            VertexBufferObject = GL.GenBuffer();
-            GL.BindBuffer(BufferTarget.ArrayBuffer, VertexBufferObject);
-            GL.BufferData(BufferTarget.ArrayBuffer, Vertices.Length * sizeof(float), Vertices, BufferUsageHint.StaticDraw);
-
-            ElementBufferObject = GL.GenBuffer();
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, ElementBufferObject);
-            GL.BufferData(BufferTarget.ElementArrayBuffer, Indices.Length * sizeof(uint), Indices, BufferUsageHint.StaticDraw);
-
-            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 0);
-            GL.EnableVertexAttribArray(0);
-
-            GL.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 3 * sizeof(float));
-            GL.EnableVertexAttribArray(1);
-        }
     }
 }

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("T3_grafica")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+eefa39d8ff550128bbcf99c012d830d09a66960e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f09d9fc4794e3e016d1b1c20494d0715e4f7486f")]
 [assembly: System.Reflection.AssemblyProductAttribute("T3_grafica")]
 [assembly: System.Reflection.AssemblyTitleAttribute("T3_grafica")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
